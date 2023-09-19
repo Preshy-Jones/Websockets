@@ -8,15 +8,18 @@ export class MessagesService {
   messages: Message[] = [{ name: 'Precious', text: 'Preshy Jones rules' }];
   clientToUser = {};
 
-  create(createMessageDto: CreateMessageDto) {
-    const message = { ...createMessageDto };
+  create(createMessageDto: CreateMessageDto, clientId: string) {
+    const message = { 
+      name: this.clientToUser[clientId],
+      text: createMessageDto.text
+     };
     this.messages.push(message);
-    return 'This action adds a new message';
+    return message;
   }
 
   identify(name: string, clientId: string) {
     this.clientToUser[clientId] = name;
-
+    console.log(this.clientToUser);
     return Object.values(this.clientToUser);
   }
 
@@ -25,7 +28,7 @@ export class MessagesService {
   }
 
   findAll() {
-    return `This action returns all messages`;
+    return this.messages;
   }
 
   findOne(id: number) {
